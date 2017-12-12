@@ -1,0 +1,66 @@
+let g:python_host_prog='/usr/local/bin/python'
+
+set number
+syntax enable
+set background=dark
+
+nnoremap m :tabedit % <CR>
+nnoremap M :tabclose <CR>
+
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set textwidth=0
+set expandtab
+
+let g:solarized_termcolors = 256
+colorscheme solarized
+
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap t :tag /
+nnoremap e <C-]>
+nnoremap E <C-W>]
+nnoremap c :pop <CR>
+
+set splitbelow
+set splitright
+
+nnoremap = :vertical res +5 <CR>
+nnoremap - :vertical res -5 <CR>
+nnoremap + :res +5 <CR>
+nnoremap _ :res -5 <CR>
+
+autocmd FileType python     nnoremap <buffer> <c-o> viw :s/\(\w\+\)/print \'\1\: \{0\}'\.format\(\1\)/  <enter> :nohl <enter><CR>
+autocmd FileType python     nnoremap <buffer> <c-i> viw :s/\(\w\+\)/print '=================  \1  ==================='\r\r    print '======================================================'/ <enter> :nohl <enter> 
+autocmd FileType javascript nnoremap <c-o> viw :s/\v(\s*)(.*)/\1console.log\('==> \2', \2\);/  <enter> :nohl <enter><CR>
+autocmd FileType elixir nnoremap <c-o> viw :s/\v(\s*)(.*)/\1IO.puts\(\"==> \2 #{inspect \2}\")/  <enter> :nohl <enter><CR>
+"autocmd FileType javascript nnoremap <c-k> viw :s/\vrgb (\d{1,3}) (\d{1,3}) (\d{1,3})/rgb\(\1,\2,\3\) <enter> :nohl <enter><CR>
+
+let vim_notes    = "~/texts/vim-notes.txt"
+let bash_profile = "~/.bash_profile"
+let vimrc_after  = "~/.vimrc.after"
+
+nnoremap <F1> :call SplitOpenFile(bash_profile) <CR>
+nnoremap <F2> :exec SplitOpenFile(vimrc_after)  <CR>
+nnoremap <F3> :call SplitOpenFile(vim_notes)    <CR>
+
+inoremap <F5> <C-R>=strftime("%c")<CR>
+
+nnoremap <F7> :TagbarToggle <CR>
+nnoremap <F8> :Geeknote <CR>
+nnoremap <F9> :source ~/.vimrc.after <CR>
+
+nnoremap 1 :bprev <CR>
+nnoremap 2 :bnext <CR>
+
+nnoremap <leader>f :set foldmethod=indent<cr>zM<cr>
+nnoremap <leader>F :set foldmethod=manual<cr>zR<cr>
+
+vnoremap 4 :g/^-/d <cr> <Bar> :'<,'>s/^+//g <cr>
+nnoremap ; :CtrlPBuffer <CR>
+
+function! SplitOpenFile(file_path)
+  :vs
+  :execute "edit" a:file_path
+endfunction
